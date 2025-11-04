@@ -1,0 +1,46 @@
+{
+  "incident_id": "INC-2024-2156",
+  "title": "International Wire Transfer Processing Failure",
+  "severity": "CRITICAL",
+  "category": "Payment System Issue",
+  "description": "International wire transfer processing halted due to compliance engine deadlock. High-value transfers were stuck, impacting enterprise customers and causing regulatory breaches.",
+  "impact_metrics": {
+    "affected_user_count": 287,
+    "failed_transactions": 287,
+    "revenue_impact_usd": 180000.0,
+    "customer_complaints": 15,
+    "sla_breach_minutes": 210
+  },
+  "root_cause": {
+    "primary_cause": "Compliance validation engine deadlock during sanctions list update.",
+    "contributing_factors": [
+      "High transaction volume",
+      "Database locks cascading to dependent services"
+    ],
+    "affected_components": [
+      "SWIFT message processor",
+      "Currency conversion service",
+      "Compliance validation engine",
+      "Transaction reconciliation system"
+    ]
+  },
+  "resolution": {
+    "immediate_actions": [
+      "Killed deadlocked database sessions.",
+      "Bypassed sanctions check with manual review process.",
+      "Processed stuck transactions in priority order.",
+      "Engaged external compliance auditor for screening.",
+      "Established a war room with key stakeholders."
+    ],
+    "preventive_measures": [
+      "Asynchronous sanctions list updates during low-traffic periods.",
+      "Database query timeout limits (max 30 seconds).",
+      "Separate read-replicas for compliance checks.",
+      "Circuit breaker pattern for compliance service.",
+      "Transaction queuing with priority lanes.",
+      "Regulatory reporting automation for breach notifications."
+    ],
+    "estimated_resolution_hours": 172.0
+  },
+  "priority_score": 10
+}

@@ -1,0 +1,37 @@
+{
+  "incident_id": "INC-2024-1987",
+  "title": "Batch Processing Performance Degradation",
+  "severity": "MEDIUM",
+  "category": "Overnight Batch Job Delay",
+  "description": "Overnight batch job processing window exceeded by 4 hours, causing end-of-day reconciliation reports to be delayed from the targeted delivery time of 6 AM to an actual delivery time of 10 AM. No direct customer impact was observed as these reports are used internally only; however, downstream analytics dashboards showed stale data for a period, and the Treasury team's daily liquidity analysis was delayed by 3 hours.",
+  "impact_metrics": {
+    "affected_user_count": null,
+    "failed_transactions": null,
+    "revenue_impact_usd": null,
+    "customer_complaints": null,
+    "sla_breach_minutes": 240
+  },
+  "root_cause": {
+    "primary_cause": "Outdated database table statistics leading to poor query plans. One reconciliation query scanned 500M rows instead of using an index (expected 50K rows).",
+    "contributing_factors": [],
+    "affected_components": [
+      "ETL pipeline",
+      "data warehouse",
+      "reporting engine"
+    ]
+  },
+  "resolution": {
+    "immediate_actions": [
+      "Updated table statistics.",
+      "Added index on transaction_date column.",
+      "Rewrote query with better hints."
+    ],
+    "preventive_measures": [
+      "Schedule automatic statistics updates weekly.",
+      "Add query performance monitoring with alerting.",
+      "Review all batch queries for optimization opportunities."
+    ],
+    "estimated_resolution_hours": 16.0
+  },
+  "priority_score": 7
+}
